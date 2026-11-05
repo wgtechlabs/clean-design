@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
+import { mkdtemp, rm, symlink, writeFile } from "node:fs/promises";
+import os from "node:os";
 import { promisify } from "node:util";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
@@ -29,4 +31,25 @@ test("reports reviewable static signals without failing on their presence", asyn
 test("keeps a clean fixture free of signals", async () => {
   const report = await audit("tests/fixtures/clean.html");
   assert.equal(report.findings.length, 0);
+});
+
+test("does not follow directory symlinks while collecting files", async (t) => {
+  const fixtureDirectory = await mkdtemp(path.join(os.tmpdir(), "clean-design-audit-"));
+  const symlinkPath = path.join(fixtureDirectory, "loop");
+
+  try {
+    await writeFile(path.join(fixtureDirectory, "screen.html"), "<main>Ready</main>");
+    try {
+      await symlink(fixtureDirectory, symlinkPath, process.platform === "win32" ? "junction" : "dir");
+    } catch (error) {
+      t.skip(`symbolic links are unavailable: ${error.code}`);
+      return;
+    }
+
+    const report = await audit(fixtureDirectory);
+    assert.equal(report.filesScanned, 1);
+    assert.equal(report.findings.length, 0);
+  } finally {
+    await rm(fixtureDirectory, { force: true, recursive: true });
+  }
 });
