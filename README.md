@@ -1,65 +1,81 @@
-![Clean Design banner — Design with intention, not imitation.](<https://ghrb.waren.build/render/banner?header=Clean+Design&subheader=Design+with+intention%2C+not+imitation.&bg=0f172a-14532d&color=f8fafc&subheadercolor=cbd5e1&headerfont=Manrope&subheaderfont=Inter&stats=false>)
-
 # Clean Design
 
-> Design with intention, not imitation.
+![Clean Design banner — Design with intention, not imitation.](<https://ghrb.waren.build/render/banner?header=Clean+Design&subheader=Design+with+intention%2C+not+imitation.&bg=102B27-187864&color=FFFFFF&subheadercolor=D6F1E5&headerfont=Inter&subheaderfont=Inter&stats=false&support=true&watermarkpos=bottom-right>)
+<!-- Created with GitHub Repo Banner by Waren Gonzaga: https://ghrb.waren.build -->
 
-Clean Design is a portable Agent Skill that helps agents prevent generic AI-generated interface patterns before, during, and after UI work. It is a design-quality guardrail, not a visual style, component library, or replacement for product judgment.
+[![License: MIT](https://img.shields.io/badge/license-MIT-187864)](LICENSE)
 
-## What it does
+**Clean Design** is a portable Agent Skill for agents that build or audit user interfaces. It helps prevent generic AI-generated patterns through product context, honest evidence, intentional exceptions, and a concise final audit—without prescribing a visual style, framework, or creative direction.
 
-- Establishes a compact context brief before UI work.
-- Flags recurring AI-generated patterns only when they conflict with product evidence, hierarchy, accessibility, or an existing system.
-- Preserves creative and framework choices for the agent and user.
-- Records intentional exceptions instead of treating familiar patterns as universally wrong.
-- Produces a bounded audit report with actionable, evidence-based findings.
-- Includes dependency-free Node helpers for limited static signals and package validation.
+## ✨ Features
 
-## Install
+- **Context before convention:** creates a proportional brief from the user’s job, available evidence, existing system, and constraints.
+- **Contextual anti-patterns:** reviews familiar visual recipes, decorative density, generic copy, unsupported proof, system drift, motion, and incomplete states without turning any style into a blanket ban.
+- **Honest exception records:** documents deliberate choices with their reason and evidence rather than treating them as automatic failures.
+- **Actionable audits:** classifies findings as Blocker, Revision, Question, or Note and records the validation performed.
+- **Optional companions:** coordinates with Hallmark or Unslop when they are available, but never requires either tool.
+- **Dependency-free helpers:** includes a portable package check and a limited static UI-signal audit for Node.js environments.
 
-Copy this repository’s `SKILL.md` and `scripts/` directory into an Agent Skills-compatible location, such as a global or project-level skills directory supported by your agent. The skill has no runtime dependencies and works without the scripts; Node.js is only needed for the optional deterministic checks.
+## 🚀 Getting Started
 
-For Codex, install the repository as a skill when your environment supports repository installation, or copy it to the relevant `.agents/skills/clean-design/` directory.
+Clean Design works with any Agent Skills-compatible assistant. Copy this repository’s `SKILL.md` and `scripts/` directory into the skill location supported by your agent. For a Codex project, a project-local location is `.agents/skills/clean-design/`.
 
-## Use
-
-Ask your agent to use Clean Design while it builds or audits a UI, for example:
+Then ask the agent to apply the skill to a UI task:
 
 ```text
 Use Clean Design to build the billing settings screen.
+```
+
+The agent should inspect the affected product surface, form a compact context brief, and implement the screen with evidence-based decisions. Node.js 18 or newer is optional and only needed for the deterministic helpers.
+
+## 📖 Usage
+
+Use Clean Design during a build or as a bounded audit of an existing change:
+
+```text
 Use Clean Design to audit the dashboard changes in src/features/analytics.
 ```
 
-The agent should inspect the affected product and create only the brief, exception records, and audit detail that suit the task’s scope.
+After a relevant UI change, run the included helpers when Node.js is available:
 
-## Deterministic checks
-
-```text
+```sh
+node scripts/audit-ui.mjs src/features/analytics --context app
 node scripts/check-skill.mjs
-node --test tests
-node scripts/audit-ui.mjs tests/fixtures/signals.html --context app
 ```
 
-`audit-ui.mjs` emits findings in text by default or JSON with `--format json`. It is intentionally conservative: it cannot determine whether a design is good, whether a claim is true, or whether a familiar visual motif is appropriate. Use it as a repeatable signal source for the audit in `SKILL.md`, not as a gate or score.
+`audit-ui.mjs` reports narrow, reviewable signals such as placeholder copy, fake links, unverified social-proof language, suppressed focus, and `transition: all`. It is evidence for a human or agent review—not a design-quality score or an automatic verdict.
 
-## Optional companions
+## 📚 Documentation
 
-Clean Design has no dependency on other design skills.
+- [SKILL.md](SKILL.md): the complete before, during, and after workflow, exception format, audit template, and optional-tool guidance.
+- [GitHub Repo Banner](https://github.com/warengonzaga/github-repo-banner): the header generator used by this README.
+- [Hallmark](https://github.com/nutlope/hallmark) and [Unslop](https://github.com/heydamir/unslop): optional complementary design workflows; neither is required.
 
-- [Hallmark](https://github.com/nutlope/hallmark) can supply new-page direction and static/browser checks when it is available and appropriate.
-- [Unslop](https://github.com/heydamir/unslop) can help refine an existing interface through its audit and design passes.
+## 🛠️ Development
 
-Clean Design keeps the cross-tool layer small: context, evidence, exceptions, and outcome reporting. It neither installs nor invokes these projects automatically.
+The repository has no third-party dependencies. Use Node.js 18 or newer to validate the portable skill package and its static-audit fixtures:
 
-## Development
-
-```text
-node scripts/check-skill.mjs
-node --test tests
+```sh
+npm run check
+npm test
 ```
 
-The test suite covers the portable skill contract and each deterministic UI signal. It has no package install step.
+The test suite verifies the skill contract and the deterministic audit signals. It does not claim to establish subjective design quality.
 
-## License
+## 🤝 Contributing
 
-MIT
+Contributions and corrections are welcome. Create a short-lived branch from `dev`, use a [Clean Commit](https://github.com/wgtechlabs/clean-commit) message, run the documented validation commands, and open a pull request targeting `dev`.
+
+Keep proposals focused on portable, context-aware guidance. Do not add a required visual style, framework dependency, or integration with Hallmark or Unslop.
+
+## 🐛 Issues & Support
+
+Use [GitHub Issues](https://github.com/wgtechlabs/clean-design/issues) for defects, documentation gaps, and questions about applying the skill. Include the affected section or helper output when relevant, but never include credentials, private product material, or other sensitive data.
+
+## 📄 License
+
+Clean Design is licensed under the [MIT License](LICENSE).
+
+## 👥 Authors & Contributors
+
+Created by **[Waren Gonzaga](https://github.com/warengonzaga)** under **[WG Technology Labs](https://github.com/wgtechlabs)**, with contributions from the [community](https://github.com/wgtechlabs/clean-design/graphs/contributors).
