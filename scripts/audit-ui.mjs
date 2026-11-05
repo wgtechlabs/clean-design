@@ -1,4 +1,4 @@
-import { readdir, readFile, stat } from "node:fs/promises";
+import { lstat, readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 
@@ -35,7 +35,10 @@ function parseArgs(args) {
 }
 
 async function collectFiles(target) {
-  const details = await stat(target);
+  const details = await lstat(target);
+  if (details.isSymbolicLink()) {
+    return [];
+  }
   if (details.isFile()) {
     return supportedExtensions.has(path.extname(target)) ? [target] : [];
   }
